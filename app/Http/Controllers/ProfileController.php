@@ -20,7 +20,7 @@ class ProfileController extends Controller
         $user = $request->user();
 
         $request->validate([
-            'name' => 'required|string',
+            'name' => 'nullable|string',
             'email' => [
                 'required',
                 'string',

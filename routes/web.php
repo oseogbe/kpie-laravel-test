@@ -34,5 +34,5 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'viewProfile'])->name('profile');
     Route::post('/update-profile', [ProfileController::class, 'updateProfile'])->name('profile.update');
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

@@ -7,7 +7,7 @@
     <div class="selection:transparent">
         <x-header />
 
-        <main class="w-full max-w-7xl mx-auto pt-32">
+        <main class="w-full max-w-7xl mx-auto pt-16">
             <div class="px-4 md:px-2">
                 <!-- Card Section -->
                 <div class="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
