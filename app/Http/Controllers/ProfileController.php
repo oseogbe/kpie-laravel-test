@@ -8,6 +8,13 @@ use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
+    public function viewProfile(Request $request)
+    {
+        $user = auth()->user();
+
+        return view('profile', compact('user'));
+    }
+
     public function updateProfile(Request $request)
     {
         $user = $request->user();
@@ -38,9 +45,6 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Profile updated successfully'
-        ], 200);
+        return redirect()->route('profile')->with('success', 'Profile updated successfully.');
     }
 }

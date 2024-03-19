@@ -1,42 +1,27 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Login | CIGroup</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Varela&display=swap"
-        rel="stylesheet">
-
-    @vite('resources/css/app.css')
-</head>
+<x-head title="Login | CIGroup" />
 
 <body class="antialiased bg-[#1b1529]">
     <div class="selection:transparent">
-        <header class="w-full fixed top-0 flex flex-wrap sm:justify-start sm:flex-nowrap z-50 bg-[#1b1529] shadow-md">
-            <nav class="w-full max-w-7xl mx-auto sm:flex sm:items-center sm:justify-between px-4 py-2 lg:px-0 lg:py-4"
-                aria-label="Global">
-                <a href="/"><img src="/img/capital.png" alt="capital" /></a>
-            </nav>
-        </header>
+        <x-header />
 
         <main class="w-full max-w-md mx-auto pt-44">
             <div class="px-4 md:px-0">
                 <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm">
                     <div class="p-4 sm:p-7">
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                         <div class="text-center">
-                            <h1 class="block text-2xl font-bold text-gray-800">Sign up</h1>
+                            <h1 class="block text-2xl font-bold text-gray-800">Sign in</h1>
                             <p class="mt-2 text-sm text-gray-600">
-                                Already have an account?
-                                <a class="text-blue-600 decoration-2 hover:underline font-medium"
-                                    href="../examples/html/signin.html">
-                                    Sign in here
+                                Don't have an account yet?
+                                <a class="text-blue-600 decoration-2 hover:underline font-medium" href="/register">
+                                    Sign up here
                                 </a>
                             </p>
                         </div>
@@ -59,7 +44,7 @@
                                         d="M23.4694 9.07688C27.8699 9.07688 30.8622 10.9863 32.5344 12.5725L39.1645 6.11C35.0867 2.32063 29.8061 0 23.4694 0C14.287 0 6.36607 5.2875 2.49362 12.9544L10.0918 18.8588C11.9987 13.1894 17.25 9.07688 23.4694 9.07688Z"
                                         fill="#EB4335" />
                                 </svg>
-                                Sign up with Google
+                                Sign in with Google
                             </button>
 
                             <div
@@ -67,7 +52,9 @@
                                 Or</div>
 
                             <!-- Form -->
-                            <form>
+                            <form method="POST" action="{{ route('login') }}">
+                                @csrf
+
                                 <div class="grid gap-y-4">
                                     <!-- Form Group -->
                                     <div>
@@ -85,8 +72,10 @@
                                                 </svg>
                                             </div>
                                         </div>
-                                        <p class="hidden text-xs text-red-600 mt-2" id="email-error">Please include a
-                                            valid email address so we can get back to you</p>
+                                        @error('email')
+                                            <p class="text-xs text-red-600 mt-2" id="email-error">{{ $message }}
+                                            </p>
+                                        @enderror
                                     </div>
                                     <!-- End Form Group -->
 
@@ -138,6 +127,15 @@
             </div>
         </main>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('.alert-success').fadeOut('slow');
+            }, 3000);
+        });
+    </script>
+
 </body>
 
 </html>

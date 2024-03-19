@@ -1,30 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Get Started | CIGroup</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Varela&display=swap"
-        rel="stylesheet">
-
-    @vite('resources/css/app.css')
-</head>
+<x-head title="Get Started | CIGroup" />
 
 <body class="antialiased bg-[#1b1529]">
     <div class="selection:transparent">
-        <header class="w-full fixed top-0 flex flex-wrap sm:justify-start sm:flex-nowrap z-50 bg-[#1b1529] shadow-md">
-            <nav class="w-full max-w-7xl mx-auto sm:flex sm:items-center sm:justify-between px-4 py-2 lg:px-0 lg:py-4"
-                aria-label="Global">
-                <a href="/"><img src="/img/capital.png" alt="capital" /></a>
-            </nav>
-        </header>
+        <x-header />
 
         <main class="w-full max-w-md mx-auto pt-44">
             <div class="px-4 md:px-0">
@@ -34,8 +15,7 @@
                             <h1 class="block text-2xl font-bold text-gray-800">Sign up</h1>
                             <p class="mt-2 text-sm text-gray-600">
                                 Already have an account?
-                                <a class="text-blue-600 decoration-2 hover:underline font-medium"
-                                    href="../examples/html/signin.html">
+                                <a class="text-blue-600 decoration-2 hover:underline font-medium" href="/login">
                                     Sign in here
                                 </a>
                             </p>
@@ -67,7 +47,9 @@
                                 Or</div>
 
                             <!-- Form -->
-                            <form>
+                            <form method="POST" action="{{ route('register') }}">
+                                @csrf
+
                                 <div class="grid gap-y-4">
                                     <!-- Form Group -->
                                     <div>
@@ -75,6 +57,7 @@
                                             address</label>
                                         <div class="relative">
                                             <input type="email" id="email" name="email"
+                                                value="{{ old('email') }}"
                                                 class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                                                 required aria-describedby="email-error">
                                             <div class="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
@@ -85,9 +68,10 @@
                                                 </svg>
                                             </div>
                                         </div>
-                                        <p class="hidden text-xs text-red-600 mt-2" id="email-error">Please include a
-                                            valid
-                                            email address so we can get back to you</p>
+                                        @error('email')
+                                            <p class="text-xs text-red-600 mt-2" id="email-error">{{ $message }}
+                                            </p>
+                                        @enderror
                                     </div>
                                     <!-- End Form Group -->
 
@@ -106,8 +90,9 @@
                                                 </svg>
                                             </div>
                                         </div>
-                                        <p class="hidden text-xs text-red-600 mt-2" id="password-error">8+ characters
-                                            required</p>
+                                        @error('password')
+                                            <p class="text-xs text-red-600 mt-2" id="password-error">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                     <!-- End Form Group -->
 
@@ -116,7 +101,7 @@
                                         <label for="confirm-password" class="block text-sm mb-2">Confirm
                                             Password</label>
                                         <div class="relative">
-                                            <input type="password" id="confirm-password" name="confirm-password"
+                                            <input type="password" id="confirm-password" name="password_confirmation"
                                                 class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                                                 required aria-describedby="confirm-password-error">
                                             <div class="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">

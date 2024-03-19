@@ -22,9 +22,19 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|confirmed',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'email.required' => 'Please enter your email address.',
+            'email.email' => 'Please enter a valid email address.',
+            'email.unique' => 'This email address is already taken.',
+            'password.required' => 'Please enter your password.',
+            'password.confirmed' => 'The password confirmation does not match.',
         ];
     }
 }

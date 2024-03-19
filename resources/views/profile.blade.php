@@ -1,30 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Profile | CIGroup</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Varela&display=swap"
-        rel="stylesheet">
-
-    @vite('resources/css/app.css')
-</head>
+<x-head title="Profile | CIGroup" />
 
 <body class="antialiased bg-[#1b1529]">
     <div class="selection:transparent">
-        <header class="w-full fixed top-0 flex flex-wrap sm:justify-start sm:flex-nowrap z-50 bg-[#1b1529] shadow-md">
-            <nav class="w-full max-w-7xl mx-auto sm:flex sm:items-center sm:justify-between px-4 py-2 lg:px-0 lg:py-4"
-                aria-label="Global">
-                <a href="/"><img src="/img/capital.png" alt="capital" /></a>
-            </nav>
-        </header>
+        <x-header />
 
         <main class="w-full max-w-7xl mx-auto pt-32">
             <div class="px-4 md:px-2">
@@ -32,6 +13,11 @@
                 <div class="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
                     <!-- Card -->
                     <div class="bg-white rounded-xl shadow p-4 sm:p-7">
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                         <div class="mb-8">
                             <h2 class="text-xl font-bold text-gray-800">
                                 Profile
@@ -41,7 +27,9 @@
                             </p>
                         </div>
 
-                        <form>
+                        <form method="POST" action="{{ route('profile.update') }}">
+                            @csrf
+
                             <!-- Grid -->
                             <div class="grid sm:grid-cols-12 gap-2 sm:gap-6">
                                 <div class="sm:col-span-3">
@@ -54,7 +42,8 @@
                                 <div class="sm:col-span-9">
                                     <div class="flex items-center gap-5">
                                         <img class="inline-block size-16 rounded-full ring-2 ring-white"
-                                            src="/img/placeholder.jpg" alt="Image Description">
+                                            src="{{ $user->picture ?? '/img/placeholder.jpg' }}"
+                                            alt="Image Description">
                                         <div class="flex gap-x-2">
                                             <div>
                                                 <button type="button"
@@ -91,24 +80,15 @@
                                                     d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
                                             </svg>
                                         </button>
-                                        <span
-                                            class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible w-40 text-center z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm"
-                                            role="tooltip">
-                                            Displayed on public forums, such as Preline
-                                        </span>
                                     </div>
                                 </div>
                                 <!-- End Col -->
 
                                 <div class="sm:col-span-9">
-                                    <div class="sm:flex">
-                                        <input id="af-account-full-name" type="text"
-                                            class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                            placeholder="Ose">
-                                        <input type="text"
-                                            class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                            placeholder="Ogbe">
-                                    </div>
+                                    <input id="af-account-full-name" name="name" type="text"
+                                        value="{{ $user->name }}"
+                                        class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                                        placeholder="Ose Ogbe">
                                 </div>
                                 <!-- End Col -->
 
@@ -120,7 +100,7 @@
                                 <!-- End Col -->
 
                                 <div class="sm:col-span-9">
-                                    <input id="af-account-email" type="email"
+                                    <input id="af-account-email" type="email" value="{{ $user->email }}"
                                         class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                                         placeholder="oseogbe@example.com">
                                 </div>
@@ -246,7 +226,7 @@
                                     class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
                                     Cancel
                                 </button>
-                                <button type="button"
+                                <button type="submit"
                                     class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
                                     Save changes
                                 </button>
@@ -259,6 +239,14 @@
             </div>
         </main>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('.alert-success').fadeOut('slow');
+            }, 3000);
+        });
+    </script>
 </body>
 
 </html>

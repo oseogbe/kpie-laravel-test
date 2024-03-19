@@ -2,8 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +21,6 @@ Route::get('/send-password-reset-link', [AuthController::class, 'sendResetPasswo
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/update-profile', [ProfileController::class, 'updateProfile']);
     Route::post('/change-password', [AuthController::class, 'changePassword']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });
